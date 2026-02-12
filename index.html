@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine, Elena?</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+body{
+    font-family:'Vazirmatn',sans-serif;
+    background:linear-gradient(to bottom,#000000,#1a0000);
+    color:#f0f0f0;
+    text-align:center;
+    padding:40px 20px;
+    margin:0;
+    overflow-x:hidden;
+}
+
+h1{
+    font-size:2.2em;
+    color:#c2185b;
+    text-shadow:0 0 15px #c2185b;
+}
+
+button{
+    padding:16px 40px;
+    margin:15px;
+    font-size:1.4em;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    transition:all 0.3s ease;
+}
+
+#yesBtn{
+    background:#c2185b;
+    color:white;
+}
+
+#noBtn{
+    background:#333;
+    color:#ccc;
+    position:relative;
+}
+
+#message{
+    display:none;
+    opacity:0;
+    transition:opacity 1.5s ease;
+    max-width:95%;
+    margin:40px auto;
+    padding:25px;
+    background:rgba(20,20,20,0.95);
+    border-radius:20px;
+    border:2px solid #c2185b;
+}
+
+#message.show{
+    opacity:1;
+}
+
+img{
+    max-width:100%;
+    margin:30px auto;
+    border-radius:15px;
+    box-shadow:0 0 30px rgba(194,24,91,0.5);
+}
+
+.signature{
+    margin-top:25px;
+    color:#c2185b;
+    font-style:italic;
+}
+
+.heart{
+    position:fixed;
+    top:-10px;
+    font-size:20px;
+    animation:fall 5s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+}
+
+.fullYes{
+    position:fixed !important;
+    top:0;
+    left:0;
+    width:100vw !important;
+    height:100vh !important;
+    font-size:10vw !important;
+    border-radius:0 !important;
+    z-index:999;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Will You Be My Valentine, Elena? 💔</h1>
+
+<button id="yesBtn">بله... ❤️‍🩹</button>
+<button id="noBtn">نه... 😞</button>
+
+<div id="message">
+<p>Every word I try to write comes out wounded. Even the letters feel like they’re mourning.</p>
+<p>Maybe I’m writing this to make you cry… but the truth is, I was already broken before this page opened.</p>
+<p>Some days feel like funerals for dreams that almost lived.</p>
+<p>I don’t know if this ache in my chest is grief… or just proof that I’m still lucky enough to love you.</p>
+<p>In a world full of poison, I only want to be your antidote.</p>
+
+<img src="https://i.pinimg.com/originals/27/5c/fc/275cfc51e60c6e3ef11101b3890bafa8.jpg">
+
+<p class="signature">دوست دارم:)</p>
+</div>
+
+<audio id="bgMusic" src="music.mp3"></audio>
+
+<script>
+let noCount = 0;
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+const music = document.getElementById("bgMusic");
+
+function moveNoButton(){
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+}
+
+noBtn.addEventListener("touchstart", moveNoButton);
+noBtn.addEventListener("mouseover", moveNoButton);
+
+noBtn.addEventListener("click", ()=>{
+    noCount++;
+    let scale = 1 + (noCount * 0.25);
+    yesBtn.style.transform = `scale(${scale})`;
+
+    if(noCount >= 10){
+        yesBtn.classList.add("fullYes");
+        yesBtn.innerHTML = "بله ❤️‍🩹";
+        noBtn.style.display="none";
+    }
+});
+
+yesBtn.addEventListener("click", ()=>{
+    message.style.display="block";
+    setTimeout(()=>message.classList.add("show"),100);
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+    startHearts();
+});
+
+function startHearts(){
+    setInterval(()=>{
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),5000);
+    },300);
+}
+
+let musicPlayed = false;
+window.addEventListener("scroll", ()=>{
+    if(!musicPlayed && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50){
+        music.play().catch(()=>{});
+        musicPlayed = true;
+    }
+});
+</script>
+
+</body>
+</html>
